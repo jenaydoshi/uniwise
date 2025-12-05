@@ -37,7 +37,7 @@ export default function Home() {
                   </Link>
                 ) : (
                   <Link
-                    href="/admin"
+                    href="/admin/dashboard"
                     className="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-lg hover:bg-gray-100 transition shadow-lg"
                   >
                     Admin Dashboard

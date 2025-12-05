@@ -32,30 +32,21 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center space-x-8">
-              <Link href="/admin" className="flex items-center space-x-2">
+              <Link href="/admin/dashboard" className="flex items-center space-x-2">
                 <span className="text-xl font-bold text-indigo-400">UniWise Admin</span>
               </Link>
               <div className="hidden md:flex items-center space-x-4">
-                <Link href="/admin" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
+                <Link href="/admin/dashboard" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
                   Dashboard
                 </Link>
                 <Link href="/admin/verification" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
                   Verifications
                 </Link>
-                <Link href="/admin/chats" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
-                  Chat Monitoring
-                </Link>
-                <Link href="/admin/community" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
-                  Community
-                </Link>
                 <Link href="/admin/users" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
                   Users
                 </Link>
-                <Link href="/admin/reports" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
-                  Reports
-                </Link>
-                <Link href="/admin/analytics" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
-                  Analytics
+                <Link href="/admin/settings" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
+                  Settings
                 </Link>
               </div>
             </div>

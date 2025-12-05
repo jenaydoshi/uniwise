@@ -16,7 +16,7 @@ export default function LoginPage() {
   // Redirect if already logged in
   if (user) {
     if (user.role === 'admin') {
-      router.push('/admin');
+      router.push('/admin/dashboard');
     } else if (user.role === 'mentor') {
       router.push('/mentor/dashboard');
     } else {
