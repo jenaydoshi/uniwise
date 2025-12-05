@@ -17,8 +17,7 @@ export default function Home() {
               Real Students. Real Guidance.
             </h1>
             <p className="text-xl md:text-2xl text-indigo-100 mb-8 max-w-3xl mx-auto">
-              Connect with verified college students from IITs, AIIMS, NITs & top law schools 
-              for affordable peer mentorship on JEE, NEET, CLAT & more.
+              Connect with college students and get authentic insights on college life, admissions, and more.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {user ? (
@@ -72,27 +71,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="text-3xl md:text-4xl font-bold text-indigo-600">500+</div>
-            <div className="text-gray-600 mt-1">Verified Mentors</div>
-          </div>
-          <div>
-            <div className="text-3xl md:text-4xl font-bold text-indigo-600">50+</div>
-            <div className="text-gray-600 mt-1">Top Colleges</div>
-          </div>
-          <div>
-            <div className="text-3xl md:text-4xl font-bold text-indigo-600">2000+</div>
-            <div className="text-gray-600 mt-1">Students Helped</div>
-          </div>
-          <div>
-            <div className="text-3xl md:text-4xl font-bold text-indigo-600">4.8★</div>
-            <div className="text-gray-600 mt-1">Average Rating</div>
-          </div>
-        </div>
-      </div>
+
 
       {/* How It Works */}
       <div className="bg-gray-50 py-16 md:py-24">
