@@ -42,6 +42,12 @@ export default function Navbar() {
                 <Link href="/admin/verification" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
                   Verifications
                 </Link>
+                <Link href="/admin/messages" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
+                  Chats
+                </Link>
+                <Link href="/admin/community" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
+                  Community
+                </Link>
                 <Link href="/admin/users" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition">
                   Users
                 </Link>

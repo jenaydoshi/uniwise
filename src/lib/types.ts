@@ -71,6 +71,9 @@ export interface ChatMessage {
   text: string;
   createdAt: string;
   read: boolean;
+  flagged?: boolean;
+  flagReason?: string;
+  flaggedAt?: string;
 }
 
 // Community Thread

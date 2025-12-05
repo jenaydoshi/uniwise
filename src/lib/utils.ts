@@ -307,6 +307,49 @@ export const getUnreadCount = (connectionId: string, userId: string): number => 
   return messages.filter(m => m.connectionId === connectionId && m.senderId !== userId && !m.read).length;
 };
 
+export const flagMessage = (messageId: string, reason: string): ChatMessage | null => {
+  const messages = getMessages();
+  const index = messages.findIndex(m => m.id === messageId);
+  if (index === -1) return null;
+  messages[index] = { 
+    ...messages[index], 
+    flagged: true, 
+    flagReason: reason,
+    flaggedAt: getTimestamp()
+  };
+  localStorage.setItem(STORAGE_KEYS.MESSAGES, JSON.stringify(messages));
+  return messages[index];
+};
+
+export const unflagMessage = (messageId: string): ChatMessage | null => {
+  const messages = getMessages();
+  const index = messages.findIndex(m => m.id === messageId);
+  if (index === -1) return null;
+  messages[index] = { 
+    ...messages[index], 
+    flagged: false, 
+    flagReason: undefined,
+    flaggedAt: undefined
+  };
+  localStorage.setItem(STORAGE_KEYS.MESSAGES, JSON.stringify(messages));
+  return messages[index];
+};
+
+export const getFlaggedMessages = (): ChatMessage[] => {
+  const messages = getMessages();
+  return messages.filter(m => m.flagged).sort(
+    (a, b) => new Date(b.flaggedAt || b.createdAt).getTime() - new Date(a.flaggedAt || a.createdAt).getTime()
+  );
+};
+
+export const deleteMessage = (messageId: string): boolean => {
+  const messages = getMessages();
+  const filtered = messages.filter(m => m.id !== messageId);
+  if (filtered.length === messages.length) return false;
+  localStorage.setItem(STORAGE_KEYS.MESSAGES, JSON.stringify(filtered));
+  return true;
+};
+
 // ============ COMMUNITY OPERATIONS ============
 
 export const getThreads = (): CommunityThread[] => {
