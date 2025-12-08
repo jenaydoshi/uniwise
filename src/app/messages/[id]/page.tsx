@@ -11,7 +11,8 @@ import {
   getConnectionByUsers,
   getMessagesByConnection,
   createMessage,
-  markMessagesAsRead
+  markMessagesAsRead,
+  flagMessage
 } from '@/lib/utils';
 
 export default function ChatPage({ params }: { params: Promise<{ id: string }> }) {
@@ -23,6 +24,8 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [flaggingMessageId, setFlaggingMessageId] = useState<string | null>(null);
+  const [showFlagSuccess, setShowFlagSuccess] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -94,6 +97,19 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
     setNewMessage('');
   };
 
+  const handleFlagMessage = (messageId: string) => {
+    flagMessage(messageId, 'Reported by user for review');
+    setFlaggingMessageId(null);
+    setShowFlagSuccess(true);
+    // Refresh messages to show flagged status
+    if (connection) {
+      const msgs = getMessagesByConnection(connection.id);
+      setMessages(msgs);
+    }
+    // Hide success message after 3 seconds
+    setTimeout(() => setShowFlagSuccess(false), 3000);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -108,6 +124,16 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
+      {/* Flag Success Notification */}
+      {showFlagSuccess && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Message reported. Admin will review it.</span>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center space-x-4">
         <Link href="/messages" className="text-gray-600 hover:text-gray-900">
@@ -157,16 +183,53 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
                       </span>
                     </div>
                   )}
-                  <div className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[70%] ${isMe ? 'order-1' : ''}`}>
+                  <div className={`flex ${isMe ? 'justify-end' : 'justify-start'} group`}>
+                    <div className={`max-w-[70%] ${isMe ? 'order-1' : ''} relative`}>
+                      {/* Flag button - only show for messages from the other person */}
+                      {!isMe && !msg.flagged && (
+                        <div className={`absolute -right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition`}>
+                          {flaggingMessageId === msg.id ? (
+                            <div className="flex items-center space-x-1 bg-white shadow-lg rounded-lg p-1">
+                              <button
+                                onClick={() => handleFlagMessage(msg.id)}
+                                className="p-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200"
+                                title="Confirm report"
+                              >
+                                Report
+                              </button>
+                              <button
+                                onClick={() => setFlaggingMessageId(null)}
+                                className="p-1 text-xs bg-gray-100 text-gray-600 rounded hover:bg-gray-200"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setFlaggingMessageId(msg.id)}
+                              className="p-1 text-gray-400 hover:text-red-500 transition"
+                              title="Report this message"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                              </svg>
+                            </button>
+                          )}
+                        </div>
+                      )}
                       <div
                         className={`px-4 py-2 rounded-2xl ${
                           isMe
                             ? 'bg-indigo-600 text-white rounded-br-md'
-                            : 'bg-white text-gray-900 rounded-bl-md shadow-sm'
+                            : msg.flagged
+                              ? 'bg-red-50 text-gray-900 rounded-bl-md shadow-sm border border-red-200'
+                              : 'bg-white text-gray-900 rounded-bl-md shadow-sm'
                         }`}
                       >
                         <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+                        {msg.flagged && (
+                          <p className="text-xs text-red-500 mt-1">🚩 Reported</p>
+                        )}
                       </div>
                       <p className={`text-xs text-gray-500 mt-1 ${isMe ? 'text-right' : ''}`}>
                         {formatTime(msg.createdAt)}
@@ -206,7 +269,7 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
               }}
               placeholder="Type a message..."
               rows={1}
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-gray-900 bg-white"
               style={{ minHeight: '44px', maxHeight: '120px' }}
             />
           </div>
