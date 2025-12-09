@@ -11,7 +11,8 @@ import {
   getConnections, 
   getMessages,
   getThreads,
-  getAnswers
+  getAnswers,
+  getFlags
 } from '@/lib/utils';
 
 export default function AdminDashboard() {
@@ -25,7 +26,8 @@ export default function AdminDashboard() {
     totalConnections: 0,
     totalMessages: 0,
     totalThreads: 0,
-    totalAnswers: 0
+    totalAnswers: 0,
+    flaggedContent: 0
   });
   const [loading, setLoading] = useState(true);
 
@@ -50,6 +52,7 @@ export default function AdminDashboard() {
     const messages = getMessages();
     const threads = getThreads();
     const answers = getAnswers();
+    const flags = getFlags().filter(f => f.targetType === 'thread' || f.targetType === 'answer');
 
     const pendingVerifications = mentorProfiles.filter(m => m.verificationStatus === 'pending').length;
 
@@ -61,7 +64,8 @@ export default function AdminDashboard() {
       totalConnections: connections.filter(c => c.status === 'accepted').length,
       totalMessages: messages.length,
       totalThreads: threads.length,
-      totalAnswers: answers.length
+      totalAnswers: answers.length,
+      flaggedContent: flags.length
     });
 
     setLoading(false);
@@ -87,7 +91,8 @@ export default function AdminDashboard() {
     { label: 'Active Connections', value: stats.totalConnections, icon: '🤝', color: 'bg-indigo-500' },
     { label: 'Messages Sent', value: stats.totalMessages, icon: '💬', color: 'bg-pink-500' },
     { label: 'Q&A Threads', value: stats.totalThreads, icon: '❓', color: 'bg-teal-500' },
-    { label: 'Answers', value: stats.totalAnswers, icon: '✅', color: 'bg-orange-500' }
+    { label: 'Answers', value: stats.totalAnswers, icon: '✅', color: 'bg-orange-500' },
+    { label: 'Flagged Q&A', value: stats.flaggedContent, icon: '🚩', color: 'bg-red-500' }
   ];
 
   return (
@@ -166,6 +171,23 @@ export default function AdminDashboard() {
                 <div>
                   <h3 className="font-semibold text-gray-900">Community Q&A</h3>
                   <p className="text-sm text-gray-500">{stats.totalThreads} threads, {stats.totalAnswers} answers</p>
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          {/* Flagged Content */}
+          <Link href="/admin/community?view=flags" className="block">
+            <div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-red-100 rounded-lg">
+                  <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Flagged Q&amp;A</h3>
+                  <p className="text-sm text-gray-500">{stats.flaggedContent} flagged item{stats.flaggedContent === 1 ? '' : 's'}</p>
                 </div>
               </div>
             </div>

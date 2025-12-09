@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, isAdminUser } from '@/context/AuthContext';
 import { CommunityThread, CommunityAnswer, User, ModerationFlag } from '@/lib/types';
@@ -19,11 +19,15 @@ interface AnswerWithAuthor extends CommunityAnswer {
 
 export default function AdminCommunityPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialView = searchParams.get('view');
   const { user } = useAuth();
   const [threads, setThreads] = useState<ThreadWithAuthor[]>([]);
   const [answers, setAnswers] = useState<AnswerWithAuthor[]>([]);
   const [flags, setFlags] = useState<ModerationFlag[]>([]);
-  const [view, setView] = useState<'threads' | 'answers' | 'flags'>('threads');
+  const [view, setView] = useState<'threads' | 'answers' | 'flags'>(
+    initialView === 'flags' ? 'flags' : initialView === 'answers' ? 'answers' : 'threads'
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,6 +42,14 @@ export default function AdminCommunityPage() {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, router]);
+
+  useEffect(() => {
+    const paramView = searchParams.get('view');
+    if (paramView === 'flags' || paramView === 'answers' || paramView === 'threads') {
+      setView(paramView as 'threads' | 'answers' | 'flags');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const loadData = () => {
     const allThreads = getThreads();
