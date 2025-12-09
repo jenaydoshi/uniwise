@@ -186,6 +186,16 @@ export default function AdminCommunityPage() {
           >
             Answers ({answers.length})
           </button>
+          <button
+            onClick={() => setView('flags')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
+              view === 'flags'
+                ? 'bg-indigo-600 text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            🚩 Flags ({flags.length})
+          </button>
         </div>
 
         {/* Content */}
@@ -283,6 +293,93 @@ export default function AdminCommunityPage() {
           ) : (
             <div className="bg-white rounded-xl shadow-sm p-12 text-center">
               <p className="text-gray-500">No answers yet.</p>
+            </div>
+          )
+        )}
+
+        {/* Flags View */}
+        {view === 'flags' && (
+          flags.length > 0 ? (
+            <div className="space-y-4">
+              {flags.map(flag => {
+                const targetContent = flag.targetType === 'thread'
+                  ? threads.find(t => t.id === flag.targetId)
+                  : answers.find(a => a.id === flag.targetId);
+                const reporter = getUserById(flag.reporterId);
+
+                return (
+                  <div key={flag.id} className="bg-white rounded-xl shadow-sm p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            flag.status === 'new' ? 'bg-red-100 text-red-800' :
+                            flag.status === 'in_review' ? 'bg-yellow-100 text-yellow-800' :
+                            flag.status === 'resolved' ? 'bg-green-100 text-green-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {flag.status.replace('_', ' ').toUpperCase()}
+                          </span>
+                          <span className="text-xs text-gray-400">{formatDate(flag.createdAt)}</span>
+                          <span className="text-xs bg-gray-100 px-2 py-1 rounded">{flag.targetType.toUpperCase()}</span>
+                        </div>
+                        <p className="font-medium text-gray-900 mb-1">Reason: {flag.reason}</p>
+                        {flag.notes && <p className="text-sm text-gray-600 mb-2">Notes: {flag.notes}</p>}
+                        <p className="text-sm text-gray-700 mb-3 bg-gray-50 p-2 rounded">
+                          {flag.targetType === 'thread'
+                            ? `"${(targetContent as ThreadWithAuthor)?.title || 'Thread not found'}"`
+                            : `"${(targetContent as AnswerWithAuthor)?.content?.slice(0, 100) || 'Answer not found'}..."`
+                          }
+                        </p>
+                        <div className="text-xs text-gray-500 space-y-1">
+                          <p>Reported by: {reporter?.name || 'Unknown'}</p>
+                          {flag.resolvedBy && (
+                            <p>Resolved by: {getUserById(flag.resolvedBy)?.name || 'Unknown'}</p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="ml-4 flex flex-col space-y-2">
+                        {flag.status === 'new' && (
+                          <>
+                            <button
+                              onClick={() => handleFlagStatus(flag.id, 'in_review')}
+                              className="px-3 py-1 text-sm bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200 transition"
+                            >
+                              In Review
+                            </button>
+                            <button
+                              onClick={() => handleFlagStatus(flag.id, 'resolved')}
+                              className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded hover:bg-green-200 transition"
+                            >
+                              Resolve
+                            </button>
+                          </>
+                        )}
+                        {flag.status === 'in_review' && (
+                          <>
+                            <button
+                              onClick={() => handleFlagStatus(flag.id, 'resolved')}
+                              className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded hover:bg-green-200 transition"
+                            >
+                              Resolve
+                            </button>
+                            <button
+                              onClick={() => handleFlagStatus(flag.id, 'dismissed')}
+                              className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition"
+                            >
+                              Dismiss
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+              <p className="text-gray-500">No flagged content.</p>
             </div>
           )
         )}
