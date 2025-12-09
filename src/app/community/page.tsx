@@ -332,40 +332,42 @@ export default function CommunityPage() {
 
         {/* Flag Modal */}
         {flagTarget && (
-          <div className="fixed inset-0 z-50 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-              <div className="fixed inset-0 transition-opacity" onClick={() => setFlagTarget(null)}>
-                <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 sm:py-12"
+            onClick={() => setFlagTarget(null)}
+          >
+            <div className="absolute inset-0 bg-gray-500 opacity-75" aria-hidden="true"></div>
+            <div
+              className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-md w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Flag for review</h3>
+                <p className="text-sm text-gray-600 mb-3">Tell us what feels off so an admin can review.</p>
+                <textarea
+                  value={flagReason}
+                  onChange={(e) => setFlagReason(e.target.value)}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                  placeholder="Reason for flagging..."
+                  autoFocus
+                />
               </div>
-              <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-              <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Flag for review</h3>
-                  <p className="text-sm text-gray-600 mb-3">Tell us what feels off so an admin can review.</p>
-                  <textarea
-                    value={flagReason}
-                    onChange={(e) => setFlagReason(e.target.value)}
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                    placeholder="Reason for flagging..."
-                  />
-                </div>
-                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                  <button
-                    type="button"
-                    onClick={handleSubmitFlag}
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
-                  >
-                    Submit Flag
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFlagTarget(null)}
-                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                  >
-                    Cancel
-                  </button>
-                </div>
+              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button
+                  type="button"
+                  onClick={handleSubmitFlag}
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
+                >
+                  Submit Flag
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFlagTarget(null)}
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
