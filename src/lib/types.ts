@@ -119,6 +119,7 @@ export interface ModerationFlag {
   targetType: 'thread' | 'answer' | 'message' | 'profile';
   targetId: string;
   reporterId: string;
+  reporterRole?: 'mentor' | 'mentee' | 'admin';
   reason: string;
   notes?: string;
   status: ReportStatus;

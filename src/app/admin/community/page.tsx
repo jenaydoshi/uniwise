@@ -344,7 +344,10 @@ export default function AdminCommunityPage() {
                           }
                         </p>
                         <div className="text-xs text-gray-500 space-y-1">
-                          <p>Reported by: {reporter?.name || 'Unknown'}</p>
+                          <p>
+                            Reported by: {reporter?.name || 'Unknown'}
+                            {flag.reporterRole ? ` (${flag.reporterRole})` : ''}
+                          </p>
                           {flag.resolvedBy && (
                             <p>Resolved by: {getUserById(flag.resolvedBy)?.name || 'Unknown'}</p>
                           )}

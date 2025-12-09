@@ -185,6 +185,7 @@ export default function CommunityPage() {
       targetType: flagTarget.type,
       targetId: flagTarget.id,
       reporterId: user.id,
+      reporterRole: user.role,
       reason: flagReason.trim(),
       notes: flagTarget.title
     });
