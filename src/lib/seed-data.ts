@@ -649,6 +649,8 @@ export const sampleCommunityThreads: CommunityThread[] = [
     upvotedBy: ['mentee-2', 'mentee-3', 'mentor-1', 'mentor-5'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 5,
+    likedBy: ['mentee-1', 'mentee-2', 'mentor-1', 'mentor-5', 'mentor-11'],
     createdAt: '2024-11-10T10:00:00Z'
   },
   {
@@ -661,6 +663,8 @@ export const sampleCommunityThreads: CommunityThread[] = [
     upvotedBy: ['mentee-1', 'mentor-2', 'mentor-8', 'mentor-14'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 8,
+    likedBy: ['mentee-1', 'mentee-2', 'mentee-3', 'mentor-2', 'mentor-8', 'mentor-14', 'mentor-5', 'mentor-1'],
     createdAt: '2024-11-12T14:00:00Z'
   },
   {
@@ -673,6 +677,8 @@ export const sampleCommunityThreads: CommunityThread[] = [
     upvotedBy: ['mentor-3', 'mentor-10'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 4,
+    likedBy: ['mentee-3', 'mentor-3', 'mentor-10', 'mentor-4'],
     createdAt: '2024-11-15T09:00:00Z'
   },
   {
@@ -685,6 +691,8 @@ export const sampleCommunityThreads: CommunityThread[] = [
     upvotedBy: ['mentee-1', 'mentee-2', 'mentor-1', 'mentor-5', 'mentor-11'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 28,
+    likedBy: ['mentee-1', 'mentee-2', 'mentee-3', 'mentor-1', 'mentor-5', 'mentor-11', 'mentor-6', 'mentor-2', 'mentor-8', 'mentor-14', 'mentor-3', 'mentor-4', 'mentor-7', 'mentor-10', 'mentor-9', 'mentor-12', 'mentor-13', 'mentor-15', 'mentor-16', 'mentor-17', 'mentor-18', 'mentor-19', 'mentor-20', 'mentee-4', 'mentee-5', 'mentee-6', 'mentee-7', 'mentee-8'],
     createdAt: '2024-11-08T16:00:00Z'
   },
   {
@@ -697,6 +705,8 @@ export const sampleCommunityThreads: CommunityThread[] = [
     upvotedBy: ['mentee-2', 'mentor-8', 'mentor-14'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 15,
+    likedBy: ['mentee-2', 'mentee-3', 'mentor-2', 'mentor-8', 'mentor-14', 'mentor-1', 'mentor-5', 'mentor-6', 'mentor-3', 'mentor-4', 'mentor-7', 'mentor-11', 'mentor-9', 'mentor-10', 'mentor-12'],
     createdAt: '2024-11-18T11:00:00Z'
   },
   {
@@ -709,6 +719,8 @@ export const sampleCommunityThreads: CommunityThread[] = [
     upvotedBy: ['mentee-2', 'mentee-3', 'mentor-1', 'mentor-5', 'mentor-11'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 12,
+    likedBy: ['mentee-1', 'mentee-2', 'mentee-3', 'mentor-1', 'mentor-5', 'mentor-11', 'mentor-6', 'mentor-2', 'mentor-8', 'mentor-14', 'mentor-3', 'mentor-4'],
     createdAt: '2024-11-20T13:00:00Z'
   },
   {
@@ -721,6 +733,8 @@ export const sampleCommunityThreads: CommunityThread[] = [
     upvotedBy: ['mentee-3', 'mentor-4'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 9,
+    likedBy: ['mentee-3', 'mentor-4', 'mentor-7', 'mentor-1', 'mentor-5', 'mentor-11', 'mentor-6', 'mentor-2', 'mentor-8'],
     createdAt: '2024-11-16T15:00:00Z'
   },
   {
@@ -733,6 +747,8 @@ export const sampleCommunityThreads: CommunityThread[] = [
     upvotedBy: ['mentor-2', 'mentor-8'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 10,
+    likedBy: ['mentee-2', 'mentee-3', 'mentor-2', 'mentor-8', 'mentor-14', 'mentor-1', 'mentor-5', 'mentor-6', 'mentor-3', 'mentor-4'],
     createdAt: '2024-11-19T10:00:00Z'
   }
 ];
@@ -749,6 +765,8 @@ export const sampleCommunityAnswers: CommunityAnswer[] = [
     upvotedBy: ['mentee-1', 'mentee-2'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 7,
+    likedBy: ['mentee-1', 'mentee-2', 'mentee-3', 'mentor-1', 'mentor-5', 'mentor-6', 'mentor-11'],
     createdAt: '2024-11-10T12:00:00Z'
   },
   {
@@ -761,6 +779,8 @@ export const sampleCommunityAnswers: CommunityAnswer[] = [
     upvotedBy: ['mentee-1'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 5,
+    likedBy: ['mentee-1', 'mentee-2', 'mentor-1', 'mentor-5', 'mentor-6'],
     createdAt: '2024-11-10T14:00:00Z'
   },
   {
@@ -773,6 +793,8 @@ export const sampleCommunityAnswers: CommunityAnswer[] = [
     upvotedBy: ['mentee-2', 'mentor-8'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 11,
+    likedBy: ['mentee-2', 'mentee-3', 'mentor-2', 'mentor-8', 'mentor-14', 'mentor-1', 'mentor-5', 'mentor-6', 'mentor-3', 'mentor-11', 'mentor-4'],
     createdAt: '2024-11-12T16:00:00Z'
   },
   {
@@ -785,6 +807,8 @@ export const sampleCommunityAnswers: CommunityAnswer[] = [
     upvotedBy: ['mentee-3'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 6,
+    likedBy: ['mentee-3', 'mentor-3', 'mentor-10', 'mentor-4', 'mentor-1', 'mentor-5'],
     createdAt: '2024-11-15T11:00:00Z'
   },
   {
@@ -797,6 +821,8 @@ export const sampleCommunityAnswers: CommunityAnswer[] = [
     upvotedBy: ['mentee-1', 'mentee-2', 'mentor-1'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 13,
+    likedBy: ['mentee-1', 'mentee-2', 'mentee-3', 'mentor-1', 'mentor-5', 'mentor-11', 'mentor-6', 'mentor-2', 'mentor-8', 'mentor-14', 'mentor-3', 'mentor-4', 'mentor-7'],
     createdAt: '2024-11-20T15:00:00Z'
   },
   {
@@ -809,6 +835,8 @@ export const sampleCommunityAnswers: CommunityAnswer[] = [
     upvotedBy: ['mentee-2', 'mentor-8'],
     downvotes: 0,
     downvotedBy: [],
+    likes: 8,
+    likedBy: ['mentee-2', 'mentee-3', 'mentor-2', 'mentor-8', 'mentor-14', 'mentor-1', 'mentor-5', 'mentor-6'],
     createdAt: '2024-11-19T12:00:00Z'
   }
 ];

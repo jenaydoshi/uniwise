@@ -12,6 +12,8 @@ import {
   createAnswer,
   voteThread,
   voteAnswer,
+  likeThread,
+  likeAnswer,
   getUserById,
   flagContent
 } from '@/lib/utils';
@@ -122,6 +124,26 @@ export default function CommunityPage() {
     if (answer?.authorId === user.id) return;
 
     voteAnswer(answerId, user.id, direction);
+    loadThreads();
+  };
+
+  const handleLikeThread = (threadId: string) => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
+    likeThread(threadId, user.id);
+    loadThreads();
+  };
+
+  const handleLikeAnswer = (answerId: string) => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
+    likeAnswer(answerId, user.id);
     loadThreads();
   };
 
@@ -399,6 +421,16 @@ export default function CommunityPage() {
                               {thread.answers.length} {thread.answers.length === 1 ? 'answer' : 'answers'}
                             </button>
                             <button
+                              onClick={() => handleLikeThread(thread.id)}
+                              className={`text-sm font-medium flex items-center gap-1 ${
+                                (thread.likedBy || []).includes(user?.id || '') ? 'text-red-600 hover:text-red-700' : 'text-gray-600 hover:text-red-600'
+                              }`}
+                              title="Like"
+                            >
+                              <span>{(thread.likedBy || []).includes(user?.id || '') ? '❤️' : '🤍'}</span>
+                              <span>{thread.likes || 0}</span>
+                            </button>
+                            <button
                               onClick={() => openFlagging({ type: 'thread', id: thread.id, title: thread.title })}
                               className="text-sm text-red-600 hover:text-red-700 font-medium"
                             >
@@ -472,12 +504,24 @@ export default function CommunityPage() {
                                             )}
                                             <span className="text-xs text-gray-400">{new Date(answer.createdAt).toLocaleDateString()}</span>
                                           </div>
-                                          <button
-                                            onClick={() => openFlagging({ type: 'answer', id: answer.id, title: answer.content.slice(0, 80) })}
-                                            className="text-xs text-red-600 hover:text-red-700"
-                                          >
-                                            🚩 Flag
-                                          </button>
+                                          <div className="flex items-center space-x-2">
+                                            <button
+                                              onClick={() => handleLikeAnswer(answer.id)}
+                                              className={`text-xs font-medium flex items-center gap-1 ${
+                                                (answer.likedBy || []).includes(user?.id || '') ? 'text-red-600 hover:text-red-700' : 'text-gray-600 hover:text-red-600'
+                                              }`}
+                                              title="Like"
+                                            >
+                                              <span>{(answer.likedBy || []).includes(user?.id || '') ? '❤️' : '🤍'}</span>
+                                              <span>{answer.likes || 0}</span>
+                                            </button>
+                                            <button
+                                              onClick={() => openFlagging({ type: 'answer', id: answer.id, title: answer.content.slice(0, 80) })}
+                                              className="text-xs text-red-600 hover:text-red-700"
+                                            >
+                                              🚩 Flag
+                                            </button>
+                                          </div>
                                         </div>
                                         <p className="text-gray-700 text-sm">{answer.content}</p>
                                       </div>

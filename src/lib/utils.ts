@@ -521,6 +521,46 @@ export const deleteAnswer = (answerId: string): boolean => {
   return true;
 };
 
+// ============ LIKE OPERATIONS ============
+
+export const likeThread = (threadId: string, userId: string): CommunityThread | null => {
+  const threads = getThreads();
+  const index = threads.findIndex(t => t.id === threadId);
+  if (index === -1) return null;
+
+  const thread = threads[index];
+  thread.likedBy = thread.likedBy || [];
+
+  if (thread.likedBy.includes(userId)) {
+    thread.likedBy = thread.likedBy.filter(id => id !== userId);
+  } else {
+    thread.likedBy.push(userId);
+  }
+
+  thread.likes = thread.likedBy.length;
+  localStorage.setItem(STORAGE_KEYS.THREADS, JSON.stringify(threads));
+  return thread;
+};
+
+export const likeAnswer = (answerId: string, userId: string): CommunityAnswer | null => {
+  const answers = getAnswers();
+  const index = answers.findIndex(a => a.id === answerId);
+  if (index === -1) return null;
+
+  const answer = answers[index];
+  answer.likedBy = answer.likedBy || [];
+
+  if (answer.likedBy.includes(userId)) {
+    answer.likedBy = answer.likedBy.filter(id => id !== userId);
+  } else {
+    answer.likedBy.push(userId);
+  }
+
+  answer.likes = answer.likedBy.length;
+  localStorage.setItem(STORAGE_KEYS.ANSWERS, JSON.stringify(answers));
+  return answer;
+};
+
 // ============ FLAG OPERATIONS ============
 
 export const getFlags = (): ModerationFlag[] => {
