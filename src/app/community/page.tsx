@@ -445,12 +445,22 @@ export default function CommunityPage() {
                             <button
                               onClick={() => handleLikeThread(thread.id)}
                               className={`text-sm font-medium flex items-center gap-1 ${
-                                (thread.likedBy || []).includes(user?.id || '') ? 'text-red-600 hover:text-red-700' : 'text-gray-600 hover:text-red-600'
+                                (thread.likedBy || []).includes(user?.id || '') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
                               }`}
                               title="Like"
                             >
-                              <span>{(thread.likedBy || []).includes(user?.id || '') ? '❤️' : '🤍'}</span>
+                              <span>{(thread.likedBy || []).includes(user?.id || '') ? '👍' : '👆'}</span>
                               <span>{thread.likes || 0}</span>
+                            </button>
+                            <button
+                              onClick={() => handleDislikeThread(thread.id)}
+                              className={`text-sm font-medium flex items-center gap-1 ${
+                                (thread.dislikedBy || []).includes(user?.id || '') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'
+                              }`}
+                              title="Dislike"
+                            >
+                              <span>{(thread.dislikedBy || []).includes(user?.id || '') ? '👎' : '👇'}</span>
+                              <span>{thread.dislikes || 0}</span>
                             </button>
                             <button
                               onClick={() => openFlagging({ type: 'thread', id: thread.id, title: thread.title })}
@@ -534,7 +544,7 @@ export default function CommunityPage() {
                                               }`}
                                               title="Like"
                                             >
-                                              <span>{(answer.likedBy || []).includes(user?.id || '') ? '👍' : '👍'}</span>
+                                              <span>{(answer.likedBy || []).includes(user?.id || '') ? '👍' : '👆'}</span>
                                               <span>{answer.likes || 0}</span>
                                             </button>
                                             <button
@@ -544,7 +554,7 @@ export default function CommunityPage() {
                                               }`}
                                               title="Dislike"
                                             >
-                                              <span>{(answer.dislikedBy || []).includes(user?.id || '') ? '👎' : '👎'}</span>
+                                              <span>{(answer.dislikedBy || []).includes(user?.id || '') ? '👎' : '👇'}</span>
                                               <span>{answer.dislikes || 0}</span>
                                             </button>
                                             <button
