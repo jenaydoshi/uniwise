@@ -77,6 +77,8 @@ export interface ChatMessage {
 }
 
 // Community Thread
+export type VoteDirection = 'up' | 'down';
+
 export interface CommunityThread {
   id: string;
   authorId: string;
@@ -85,6 +87,8 @@ export interface CommunityThread {
   category: 'Admissions' | 'Exams' | 'Campus Life' | 'Scholarships' | 'Careers';
   upvotes: number;
   upvotedBy: string[];
+  downvotes?: number;
+  downvotedBy?: string[];
   createdAt: string;
 }
 
@@ -97,7 +101,22 @@ export interface CommunityAnswer {
   isMentorAnswer: boolean;
   upvotes: number;
   upvotedBy: string[];
+  downvotes?: number;
+  downvotedBy?: string[];
   createdAt: string;
+}
+
+export interface ModerationFlag {
+  id: string;
+  targetType: 'thread' | 'answer' | 'message' | 'profile';
+  targetId: string;
+  reporterId: string;
+  reason: string;
+  notes?: string;
+  status: ReportStatus;
+  createdAt: string;
+  resolvedAt?: string;
+  resolvedBy?: string;
 }
 
 // Admin Verification Request

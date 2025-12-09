@@ -8,7 +8,9 @@ import {
   CommunityAnswer,
   AuthenticatedUser,
   MenteeUser,
-  MentorUser
+  MentorUser,
+  VoteDirection,
+  ModerationFlag
 } from './types';
 import {
   sampleMentorUsers,
@@ -36,6 +38,7 @@ const STORAGE_KEYS = {
   ANSWERS: 'uniwise_answers',
   VERIFICATIONS: 'uniwise_verifications',
   REPORTS: 'uniwise_reports',
+  FLAGS: 'uniwise_flags',
   INITIALIZED: 'uniwise_initialized'
 };
 
@@ -86,6 +89,7 @@ export const initializeData = () => {
   localStorage.setItem(STORAGE_KEYS.ANSWERS, JSON.stringify(sampleCommunityAnswers));
   localStorage.setItem(STORAGE_KEYS.VERIFICATIONS, JSON.stringify(sampleVerificationRequests));
   localStorage.setItem(STORAGE_KEYS.REPORTS, JSON.stringify(sampleReports));
+  localStorage.setItem(STORAGE_KEYS.FLAGS, JSON.stringify([]));
   localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');
 };
 
@@ -355,7 +359,12 @@ export const deleteMessage = (messageId: string): boolean => {
 export const getThreads = (): CommunityThread[] => {
   if (typeof window === 'undefined') return [];
   const data = localStorage.getItem(STORAGE_KEYS.THREADS);
-  return data ? JSON.parse(data) : [];
+  const threads: CommunityThread[] = data ? JSON.parse(data) : [];
+  return threads.map(thread => ({
+    ...thread,
+    downvotedBy: thread.downvotedBy || [],
+    downvotes: thread.downvotes ?? (thread.downvotedBy ? thread.downvotedBy.length : 0)
+  }));
 };
 
 export const getThreadById = (id: string): CommunityThread | null => {
@@ -363,13 +372,17 @@ export const getThreadById = (id: string): CommunityThread | null => {
   return threads.find(t => t.id === id) || null;
 };
 
-export const createThread = (thread: Omit<CommunityThread, 'id' | 'createdAt' | 'upvotes' | 'upvotedBy'>): CommunityThread => {
+export const createThread = (
+  thread: Omit<CommunityThread, 'id' | 'createdAt' | 'upvotes' | 'upvotedBy' | 'downvotes' | 'downvotedBy'>
+): CommunityThread => {
   const threads = getThreads();
   const newThread: CommunityThread = {
     ...thread,
     id: `thread-${generateId()}`,
     upvotes: 0,
     upvotedBy: [],
+    downvotes: 0,
+    downvotedBy: [],
     createdAt: getTimestamp()
   };
   threads.push(newThread);
@@ -377,25 +390,42 @@ export const createThread = (thread: Omit<CommunityThread, 'id' | 'createdAt' | 
   return newThread;
 };
 
-export const upvoteThread = (threadId: string, userId: string): CommunityThread | null => {
+export const voteThread = (threadId: string, userId: string, direction: VoteDirection): CommunityThread | null => {
   const threads = getThreads();
   const index = threads.findIndex(t => t.id === threadId);
   if (index === -1) return null;
-  
+
   const thread = threads[index];
-  if (thread.upvotedBy.includes(userId)) {
-    // Remove upvote
-    thread.upvotedBy = thread.upvotedBy.filter(id => id !== userId);
-    thread.upvotes--;
+  thread.upvotedBy = thread.upvotedBy || [];
+  thread.downvotedBy = thread.downvotedBy || [];
+
+  // Remove existing vote in opposite bucket
+  if (direction === 'up') {
+    thread.downvotedBy = thread.downvotedBy.filter(id => id !== userId);
+    if (thread.upvotedBy.includes(userId)) {
+      thread.upvotedBy = thread.upvotedBy.filter(id => id !== userId);
+    } else {
+      thread.upvotedBy.push(userId);
+    }
   } else {
-    // Add upvote
-    thread.upvotedBy.push(userId);
-    thread.upvotes++;
+    thread.upvotedBy = thread.upvotedBy.filter(id => id !== userId);
+    if (thread.downvotedBy.includes(userId)) {
+      thread.downvotedBy = thread.downvotedBy.filter(id => id !== userId);
+    } else {
+      thread.downvotedBy.push(userId);
+    }
   }
-  
+
+  thread.upvotes = thread.upvotedBy.length;
+  thread.downvotes = thread.downvotedBy.length;
+
   localStorage.setItem(STORAGE_KEYS.THREADS, JSON.stringify(threads));
   return thread;
 };
+
+export const upvoteThread = (threadId: string, userId: string) => voteThread(threadId, userId, 'up');
+
+export const downvoteThread = (threadId: string, userId: string) => voteThread(threadId, userId, 'down');
 
 export const deleteThread = (threadId: string): boolean => {
   const threads = getThreads();
@@ -414,7 +444,12 @@ export const deleteThread = (threadId: string): boolean => {
 export const getAnswers = (): CommunityAnswer[] => {
   if (typeof window === 'undefined') return [];
   const data = localStorage.getItem(STORAGE_KEYS.ANSWERS);
-  return data ? JSON.parse(data) : [];
+  const answers: CommunityAnswer[] = data ? JSON.parse(data) : [];
+  return answers.map(answer => ({
+    ...answer,
+    downvotedBy: answer.downvotedBy || [],
+    downvotes: answer.downvotes ?? (answer.downvotedBy ? answer.downvotedBy.length : 0)
+  }));
 };
 
 export const getAnswersByThread = (threadId: string): CommunityAnswer[] => {
@@ -424,13 +459,17 @@ export const getAnswersByThread = (threadId: string): CommunityAnswer[] => {
   );
 };
 
-export const createAnswer = (answer: Omit<CommunityAnswer, 'id' | 'createdAt' | 'upvotes' | 'upvotedBy'>): CommunityAnswer => {
+export const createAnswer = (
+  answer: Omit<CommunityAnswer, 'id' | 'createdAt' | 'upvotes' | 'upvotedBy' | 'downvotes' | 'downvotedBy'>
+): CommunityAnswer => {
   const answers = getAnswers();
   const newAnswer: CommunityAnswer = {
     ...answer,
     id: `ans-${generateId()}`,
     upvotes: 0,
     upvotedBy: [],
+    downvotes: 0,
+    downvotedBy: [],
     createdAt: getTimestamp()
   };
   answers.push(newAnswer);
@@ -438,23 +477,41 @@ export const createAnswer = (answer: Omit<CommunityAnswer, 'id' | 'createdAt' | 
   return newAnswer;
 };
 
-export const upvoteAnswer = (answerId: string, userId: string): CommunityAnswer | null => {
+export const voteAnswer = (answerId: string, userId: string, direction: VoteDirection): CommunityAnswer | null => {
   const answers = getAnswers();
   const index = answers.findIndex(a => a.id === answerId);
   if (index === -1) return null;
-  
+
   const answer = answers[index];
-  if (answer.upvotedBy.includes(userId)) {
-    answer.upvotedBy = answer.upvotedBy.filter(id => id !== userId);
-    answer.upvotes--;
+  answer.upvotedBy = answer.upvotedBy || [];
+  answer.downvotedBy = answer.downvotedBy || [];
+
+  if (direction === 'up') {
+    answer.downvotedBy = answer.downvotedBy.filter(id => id !== userId);
+    if (answer.upvotedBy.includes(userId)) {
+      answer.upvotedBy = answer.upvotedBy.filter(id => id !== userId);
+    } else {
+      answer.upvotedBy.push(userId);
+    }
   } else {
-    answer.upvotedBy.push(userId);
-    answer.upvotes++;
+    answer.upvotedBy = answer.upvotedBy.filter(id => id !== userId);
+    if (answer.downvotedBy.includes(userId)) {
+      answer.downvotedBy = answer.downvotedBy.filter(id => id !== userId);
+    } else {
+      answer.downvotedBy.push(userId);
+    }
   }
-  
+
+  answer.upvotes = answer.upvotedBy.length;
+  answer.downvotes = answer.downvotedBy.length;
+
   localStorage.setItem(STORAGE_KEYS.ANSWERS, JSON.stringify(answers));
   return answer;
 };
+
+export const upvoteAnswer = (answerId: string, userId: string) => voteAnswer(answerId, userId, 'up');
+
+export const downvoteAnswer = (answerId: string, userId: string) => voteAnswer(answerId, userId, 'down');
 
 export const deleteAnswer = (answerId: string): boolean => {
   const answers = getAnswers();
@@ -462,6 +519,53 @@ export const deleteAnswer = (answerId: string): boolean => {
   if (filtered.length === answers.length) return false;
   localStorage.setItem(STORAGE_KEYS.ANSWERS, JSON.stringify(filtered));
   return true;
+};
+
+// ============ FLAG OPERATIONS ============
+
+export const getFlags = (): ModerationFlag[] => {
+  if (typeof window === 'undefined') return [];
+  const data = localStorage.getItem(STORAGE_KEYS.FLAGS);
+  return data ? JSON.parse(data) : [];
+};
+
+export const getFlagsForTarget = (targetType: ModerationFlag['targetType'], targetId: string): ModerationFlag[] => {
+  return getFlags().filter(flag => flag.targetType === targetType && flag.targetId === targetId);
+};
+
+export const flagContent = (
+  flag: Omit<ModerationFlag, 'id' | 'createdAt' | 'status'> & { status?: ModerationFlag['status'] }
+): ModerationFlag => {
+  const flags = getFlags();
+  const newFlag: ModerationFlag = {
+    ...flag,
+    id: `flag-${generateId()}`,
+    status: flag.status || 'new',
+    createdAt: getTimestamp()
+  };
+  flags.push(newFlag);
+  localStorage.setItem(STORAGE_KEYS.FLAGS, JSON.stringify(flags));
+  return newFlag;
+};
+
+export const updateFlagStatus = (
+  flagId: string,
+  status: ModerationFlag['status'],
+  resolvedBy?: string
+): ModerationFlag | null => {
+  const flags = getFlags();
+  const index = flags.findIndex(f => f.id === flagId);
+  if (index === -1) return null;
+
+  flags[index] = {
+    ...flags[index],
+    status,
+    resolvedAt: status === 'resolved' || status === 'dismissed' ? getTimestamp() : undefined,
+    resolvedBy: resolvedBy || flags[index].resolvedBy
+  };
+
+  localStorage.setItem(STORAGE_KEYS.FLAGS, JSON.stringify(flags));
+  return flags[index];
 };
 
 // ============ AUTH OPERATIONS ============
@@ -543,6 +647,7 @@ export const getAdminStats = () => {
   const connections = getConnections();
   const messages = getMessages();
   const reports = getReports() as { status: string }[];
+  const flags = getFlags();
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -552,7 +657,7 @@ export const getAdminStats = () => {
     totalMentors: users.filter(u => u.role === 'mentor').length,
     pendingVerifications: profiles.filter(p => p.verificationStatus === 'pending').length,
     activeChatsToday: messages.filter(m => new Date(m.createdAt) >= today).length,
-    flaggedConversations: 0, // Would be populated by moderation system
+    flaggedConversations: flags.filter(f => f.targetType === 'message').length || messages.filter(m => m.flagged).length,
     openReports: reports.filter(r => r.status === 'new' || r.status === 'in_review').length,
     totalConnections: connections.length,
     acceptedConnections: connections.filter(c => c.status === 'accepted').length

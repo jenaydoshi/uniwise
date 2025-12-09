@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, isAdminUser } from '@/context/AuthContext';
-import { CommunityThread, CommunityAnswer, User } from '@/lib/types';
-import { getThreads, getAnswers, getUserById, formatDate } from '@/lib/utils';
+import { CommunityThread, CommunityAnswer, User, ModerationFlag } from '@/lib/types';
+import { getThreads, getAnswers, getUserById, formatDate, getFlags, updateFlagStatus } from '@/lib/utils';
 
 interface ThreadWithAuthor extends CommunityThread {
   author: User | null;
@@ -22,7 +22,8 @@ export default function AdminCommunityPage() {
   const { user } = useAuth();
   const [threads, setThreads] = useState<ThreadWithAuthor[]>([]);
   const [answers, setAnswers] = useState<AnswerWithAuthor[]>([]);
-  const [view, setView] = useState<'threads' | 'answers'>('threads');
+  const [flags, setFlags] = useState<ModerationFlag[]>([]);
+  const [view, setView] = useState<'threads' | 'answers' | 'flags'>('threads');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ export default function AdminCommunityPage() {
   const loadData = () => {
     const allThreads = getThreads();
     const allAnswers = getAnswers();
+    const allFlags = getFlags().filter(f => f.targetType === 'thread' || f.targetType === 'answer');
 
     const threadsWithAuthors: ThreadWithAuthor[] = allThreads.map(thread => ({
       ...thread,
@@ -61,10 +63,17 @@ export default function AdminCommunityPage() {
     answersWithAuthors.sort((a, b) => 
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
+    allFlags.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     setThreads(threadsWithAuthors);
     setAnswers(answersWithAuthors);
+    setFlags(allFlags);
     setLoading(false);
+  };
+
+  const handleFlagStatus = (flagId: string, status: ModerationFlag['status']) => {
+    updateFlagStatus(flagId, status, user?.id);
+    loadData();
   };
 
   const handleDeleteThread = (threadId: string) => {
