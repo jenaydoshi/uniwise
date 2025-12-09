@@ -381,36 +381,6 @@ export default function CommunityPage() {
                 <div key={thread.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
                   <div className="p-6">
                     <div className="flex items-start space-x-4">
-                      {/* Voting */}
-                      <div className="flex flex-col items-center">
-                        <button
-                          onClick={() => handleVoteThread(thread.id, 'up')}
-                          disabled={thread.authorId === user?.id}
-                          className={`p-1 rounded hover:bg-gray-100 ${
-                            hasUpvoted ? 'text-indigo-600' : 'text-gray-400'
-                          }`}
-                          title="Upvote"
-                        >
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M6.94 5a2 2 0 0 1 1.73-.99 1.99 1.99 0 0 1 1.83.46l.18.15h3.6l.18-.15a1.99 1.99 0 0 1 1.83-.46c.69.16 1.29.6 1.73.99l4.56 4.56a3 3 0 0 1 .96 2.15l-.01.13v5.1c0 .45-.09.86-.23 1.25-.14.38-.36.74-.62 1.04s-.57.55-.91.73a2.99 2.99 0 0 1-2.48.27 2.99 2.99 0 0 1-2.14-2.77v-3h-3v3a2.99 2.99 0 0 1-2.14 2.77 2.99 2.99 0 0 1-2.48-.27 2.99 2.99 0 0 1-.91-.73 2.99 2.99 0 0 1-.62-1.04 2.99 2.99 0 0 1-.23-1.25v-5.1a3 3 0 0 1 .96-2.15L6.94 5z" />
-                          </svg>
-                        </button>
-                        <span className="text-sm font-medium text-gray-700">{thread.upvotes}</span>
-                        <button
-                          onClick={() => handleVoteThread(thread.id, 'down')}
-                          disabled={thread.authorId === user?.id}
-                          className={`p-1 rounded hover:bg-gray-100 ${
-                            hasDownvoted ? 'text-red-600' : 'text-gray-400'
-                          }`}
-                          title="Downvote"
-                        >
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.06 19a2 2 0 0 1-1.73.99 1.99 1.99 0 0 1-1.83-.46l-.18-.15h-3.6l-.18.15a1.99 1.99 0 0 1-1.83.46 2 2 0 0 1-1.73-.99L2.96 14.44a3 3 0 0 1-.96-2.15l.01-.13v-5.1c0-.45.09-.86.23-1.25.14-.38.36-.74.62-1.04s.57-.55.91-.73a2.99 2.99 0 0 1 2.48-.27 2.99 2.99 0 0 1 2.14 2.77v3h3v-3a2.99 2.99 0 0 1 2.14-2.77 2.99 2.99 0 0 1 2.48.27 2.99 2.99 0 0 1 .91.73 2.99 2.99 0 0 1 .62 1.04 2.99 2.99 0 0 1 .23 1.25v5.1a3 3 0 0 1-.96 2.15L17.06 19z" />
-                          </svg>
-                        </button>
-                        <span className="text-xs font-medium text-gray-600">{thread.downvotes || 0}</span>
-                      </div>
-
                       {/* Content */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-2">
@@ -491,34 +461,6 @@ export default function CommunityPage() {
                                 return (
                                   <div key={answer.id} className="bg-white rounded-lg p-4">
                                     <div className="flex items-start space-x-3">
-                                      <div className="flex flex-col items-center">
-                                        <button
-                                          onClick={() => handleVoteAnswer(answer.id, 'up')}
-                                          disabled={answer.authorId === user?.id}
-                                          className={`p-1 rounded hover:bg-gray-100 ${
-                                            answerUpvoted ? 'text-indigo-600' : 'text-gray-400'
-                                          }`}
-                                          title="Upvote"
-                                        >
-                                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M6.94 5a2 2 0 0 1 1.73-.99 1.99 1.99 0 0 1 1.83.46l.18.15h3.6l.18-.15a1.99 1.99 0 0 1 1.83-.46c.69.16 1.29.6 1.73.99l4.56 4.56a3 3 0 0 1 .96 2.15l-.01.13v5.1c0 .45-.09.86-.23 1.25-.14.38-.36.74-.62 1.04s-.57.55-.91.73a2.99 2.99 0 0 1-2.48.27 2.99 2.99 0 0 1-2.14-2.77v-3h-3v3a2.99 2.99 0 0 1-2.14 2.77 2.99 2.99 0 0 1-2.48-.27 2.99 2.99 0 0 1-.91-.73 2.99 2.99 0 0 1-.62-1.04 2.99 2.99 0 0 1-.23-1.25v-5.1a3 3 0 0 1 .96-2.15L6.94 5z" />
-                                          </svg>
-                                        </button>
-                                        <span className="text-xs font-medium text-gray-600">{answer.upvotes}</span>
-                                        <button
-                                          onClick={() => handleVoteAnswer(answer.id, 'down')}
-                                          disabled={answer.authorId === user?.id}
-                                          className={`p-1 rounded hover:bg-gray-100 ${
-                                            answerDownvoted ? 'text-red-600' : 'text-gray-400'
-                                          }`}
-                                          title="Downvote"
-                                        >
-                                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M17.06 19a2 2 0 0 1-1.73.99 1.99 1.99 0 0 1-1.83-.46l-.18-.15h-3.6l-.18.15a1.99 1.99 0 0 1-1.83.46 2 2 0 0 1-1.73-.99L2.96 14.44a3 3 0 0 1-.96-2.15l.01-.13v-5.1c0-.45.09-.86.23-1.25.14-.38.36-.74.62-1.04s.57-.55.91-.73a2.99 2.99 0 0 1 2.48-.27 2.99 2.99 0 0 1 2.14 2.77v3h3v-3a2.99 2.99 0 0 1 2.14-2.77 2.99 2.99 0 0 1 2.48.27 2.99 2.99 0 0 1 .91.73 2.99 2.99 0 0 1 .62 1.04 2.99 2.99 0 0 1 .23 1.25v5.1a3 3 0 0 1-.96 2.15L17.06 19z" />
-                                          </svg>
-                                        </button>
-                                        <span className="text-[10px] font-medium text-gray-500">{answer.downvotes || 0}</span>
-                                      </div>
                                       <div className="flex-1">
                                         <div className="flex items-start justify-between mb-2">
                                           <div className="flex items-center space-x-2">
