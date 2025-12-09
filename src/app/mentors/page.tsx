@@ -17,6 +17,8 @@ export default function MentorsPage() {
   const [mentors, setMentors] = useState<MentorUser[]>([]);
   const [filteredMentors, setFilteredMentors] = useState<MentorUser[]>([]);
   const [connectionStatuses, setConnectionStatuses] = useState<Record<string, 'none' | 'pending' | 'accepted'>>({});
+  const [statesList, setStatesList] = useState<string[]>([]);
+  const [citiesList, setCitiesList] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
   
@@ -25,7 +27,10 @@ export default function MentorsPage() {
     college: '',
     exam: '',
     topic: '',
-    language: ''
+    language: '',
+    state: '',
+    city: '',
+    availability: ''
   });
 
   useEffect(() => {
@@ -40,6 +45,12 @@ export default function MentorsPage() {
     const allMentors = getVerifiedMentors();
     setMentors(allMentors);
     setFilteredMentors(allMentors);
+
+    // Derive India-specific filters from mentor data
+    const uniqueStates = Array.from(new Set(allMentors.map(m => m.profile.state).filter(Boolean)));
+    const uniqueCities = Array.from(new Set(allMentors.map(m => m.profile.city).filter(Boolean)));
+    setStatesList(uniqueStates);
+    setCitiesList(uniqueCities);
     
     // Load connection statuses for current user
     if (user && user.role === 'mentee') {
@@ -88,6 +99,21 @@ export default function MentorsPage() {
       result = result.filter(m => m.profile.languages.includes(filters.language));
     }
 
+    // State filter (India-specific)
+    if (filters.state) {
+      result = result.filter(m => m.profile.state === filters.state);
+    }
+
+    // City filter (India-specific)
+    if (filters.city) {
+      result = result.filter(m => m.profile.city === filters.city);
+    }
+
+    // Availability filter (India-specific preferred slots)
+    if (filters.availability) {
+      result = result.filter(m => (m.profile.availability || '').toLowerCase().includes(filters.availability.toLowerCase()));
+    }
+
     setFilteredMentors(result);
   };
 
@@ -130,11 +156,14 @@ export default function MentorsPage() {
       college: '',
       exam: '',
       topic: '',
-      language: ''
+      language: '',
+      state: '',
+      city: '',
+      availability: ''
     });
   };
 
-  const activeFilterCount = [filters.college, filters.exam, filters.topic, filters.language].filter(Boolean).length;
+  const activeFilterCount = [filters.college, filters.exam, filters.topic, filters.language, filters.state, filters.city, filters.availability].filter(Boolean).length;
 
   if (loading) {
     return (
@@ -176,7 +205,7 @@ export default function MentorsPage() {
                 placeholder="Search by name, college, or topics..."
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 bg-white"
               />
             </div>
             <button
@@ -230,18 +259,35 @@ export default function MentorsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
                   <select
-                    value={filters.topic}
-                    onChange={(e) => setFilters({ ...filters, topic: e.target.value })}
+                    value={filters.state}
+                    onChange={(e) => setFilters({ ...filters, state: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   >
-                    <option value="">All Topics</option>
-                    {topicsList.map((topic) => (
-                      <option key={topic} value={topic}>{topic}</option>
+                    <option value="">All States</option>
+                    {statesList.map((state) => (
+                      <option key={state} value={state}>{state}</option>
                     ))}
                   </select>
                 </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                  <select
+                    value={filters.city}
+                    onChange={(e) => setFilters({ ...filters, city: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">All Cities</option>
+                    {citiesList.map((city) => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Language</label>
                   <select
@@ -249,11 +295,46 @@ export default function MentorsPage() {
                     onChange={(e) => setFilters({ ...filters, language: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   >
-                    <option value="">All Languages</option>
+                    <option value="">Any Language</option>
                     {languagesList.map((lang) => (
                       <option key={lang} value={lang}>{lang}</option>
                     ))}
                   </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                  <select
+                    value={filters.topic}
+                    onChange={(e) => setFilters({ ...filters, topic: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Any Topic</option>
+                    {topicsList.map((topic) => (
+                      <option key={topic} value={topic}>{topic}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Availability</label>
+                  <select
+                    value={filters.availability}
+                    onChange={(e) => setFilters({ ...filters, availability: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Any Slot</option>
+                    <option value="weekend">Weekend slots</option>
+                    <option value="weekday">Weekday slots</option>
+                    <option value="evening">Evenings (IST)</option>
+                    <option value="morning">Early mornings (IST)</option>
+                  </select>
+                </div>
+                <div className="flex items-end">
+                  <button
+                    onClick={clearFilters}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+                  >
+                    Clear Filters
+                  </button>
                 </div>
               </div>
               {activeFilterCount > 0 && (

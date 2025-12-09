@@ -189,6 +189,9 @@ export interface MentorFilters {
   exam: string;
   topic: string;
   language: string;
+   state: string;
+   city: string;
+   availability: string;
 }
 
 // Dashboard stats
