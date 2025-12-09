@@ -14,6 +14,8 @@ import {
   voteAnswer,
   likeThread,
   likeAnswer,
+  dislikeThread,
+  dislikeAnswer,
   getUserById,
   flagContent
 } from '@/lib/utils';
@@ -144,6 +146,26 @@ export default function CommunityPage() {
     }
 
     likeAnswer(answerId, user.id);
+    loadThreads();
+  };
+
+  const handleDislikeThread = (threadId: string) => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
+    dislikeThread(threadId, user.id);
+    loadThreads();
+  };
+
+  const handleDislikeAnswer = (answerId: string) => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
+    dislikeAnswer(answerId, user.id);
     loadThreads();
   };
 
@@ -504,20 +526,30 @@ export default function CommunityPage() {
                                             )}
                                             <span className="text-xs text-gray-400">{new Date(answer.createdAt).toLocaleDateString()}</span>
                                           </div>
-                                          <div className="flex items-center space-x-2">
+                                          <div className="flex items-center space-x-3">
                                             <button
                                               onClick={() => handleLikeAnswer(answer.id)}
-                                              className={`text-xs font-medium flex items-center gap-1 ${
-                                                (answer.likedBy || []).includes(user?.id || '') ? 'text-red-600 hover:text-red-700' : 'text-gray-600 hover:text-red-600'
+                                              className={`text-sm font-medium flex items-center gap-1 ${
+                                                (answer.likedBy || []).includes(user?.id || '') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
                                               }`}
                                               title="Like"
                                             >
-                                              <span>{(answer.likedBy || []).includes(user?.id || '') ? '❤️' : '🤍'}</span>
+                                              <span>{(answer.likedBy || []).includes(user?.id || '') ? '👍' : '👍'}</span>
                                               <span>{answer.likes || 0}</span>
                                             </button>
                                             <button
+                                              onClick={() => handleDislikeAnswer(answer.id)}
+                                              className={`text-sm font-medium flex items-center gap-1 ${
+                                                (answer.dislikedBy || []).includes(user?.id || '') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'
+                                              }`}
+                                              title="Dislike"
+                                            >
+                                              <span>{(answer.dislikedBy || []).includes(user?.id || '') ? '👎' : '👎'}</span>
+                                              <span>{answer.dislikes || 0}</span>
+                                            </button>
+                                            <button
                                               onClick={() => openFlagging({ type: 'answer', id: answer.id, title: answer.content.slice(0, 80) })}
-                                              className="text-xs text-red-600 hover:text-red-700"
+                                              className="text-sm text-red-600 hover:text-red-700 font-medium"
                                             >
                                               🚩 Flag
                                             </button>

@@ -91,6 +91,8 @@ export interface CommunityThread {
   downvotedBy?: string[];
   likes?: number;
   likedBy?: string[];
+  dislikes?: number;
+  dislikedBy?: string[];
   createdAt: string;
 }
 
@@ -107,6 +109,8 @@ export interface CommunityAnswer {
   downvotedBy?: string[];
   likes?: number;
   likedBy?: string[];
+  dislikes?: number;
+  dislikedBy?: string[];
   createdAt: string;
 }
 

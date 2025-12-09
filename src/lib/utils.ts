@@ -561,6 +561,44 @@ export const likeAnswer = (answerId: string, userId: string): CommunityAnswer | 
   return answer;
 };
 
+export const dislikeThread = (threadId: string, userId: string): CommunityThread | null => {
+  const threads = getThreads();
+  const index = threads.findIndex(t => t.id === threadId);
+  if (index === -1) return null;
+
+  const thread = threads[index];
+  thread.dislikedBy = thread.dislikedBy || [];
+
+  if (thread.dislikedBy.includes(userId)) {
+    thread.dislikedBy = thread.dislikedBy.filter(id => id !== userId);
+  } else {
+    thread.dislikedBy.push(userId);
+  }
+
+  thread.dislikes = thread.dislikedBy.length;
+  localStorage.setItem(STORAGE_KEYS.THREADS, JSON.stringify(threads));
+  return thread;
+};
+
+export const dislikeAnswer = (answerId: string, userId: string): CommunityAnswer | null => {
+  const answers = getAnswers();
+  const index = answers.findIndex(a => a.id === answerId);
+  if (index === -1) return null;
+
+  const answer = answers[index];
+  answer.dislikedBy = answer.dislikedBy || [];
+
+  if (answer.dislikedBy.includes(userId)) {
+    answer.dislikedBy = answer.dislikedBy.filter(id => id !== userId);
+  } else {
+    answer.dislikedBy.push(userId);
+  }
+
+  answer.dislikes = answer.dislikedBy.length;
+  localStorage.setItem(STORAGE_KEYS.ANSWERS, JSON.stringify(answers));
+  return answer;
+};
+
 // ============ FLAG OPERATIONS ============
 
 export const getFlags = (): ModerationFlag[] => {
