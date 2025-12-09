@@ -179,14 +179,15 @@ export default function CommunityPage() {
   };
 
   const handleSubmitFlag = () => {
-    if (!user || !flagTarget || !flagReason.trim()) return;
+    if (!user || !flagTarget) return;
+    const reason = flagReason.trim() || 'Flagged for review';
 
     flagContent({
       targetType: flagTarget.type,
       targetId: flagTarget.id,
       reporterId: user.id,
       reporterRole: user.role,
-      reason: flagReason.trim(),
+      reason,
       notes: flagTarget.title
     });
 
@@ -353,7 +354,6 @@ export default function CommunityPage() {
                   <button
                     type="button"
                     onClick={handleSubmitFlag}
-                    disabled={!flagReason.trim()}
                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
                   >
                     Submit Flag
