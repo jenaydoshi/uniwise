@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, isAdminUser } from '@/context/AuthContext';
@@ -17,7 +17,7 @@ interface AnswerWithAuthor extends CommunityAnswer {
   thread: CommunityThread | null;
 }
 
-export default function AdminCommunityPage() {
+function AdminCommunityContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialView = searchParams.get('view');
@@ -400,5 +400,17 @@ export default function AdminCommunityPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function AdminCommunityPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    }>
+      <AdminCommunityContent />
+    </Suspense>
   );
 }
