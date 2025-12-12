@@ -214,7 +214,7 @@ export default function ProfilePage() {
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                       />
                     </div>
                     <div>
@@ -222,7 +222,7 @@ export default function ProfilePage() {
                       <select
                         value={formData.currentClass}
                         onChange={(e) => setFormData({ ...formData, currentClass: e.target.value as '10' | '11' | '12' | 'gap_year' })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                       >
                         {classOptions.map(option => (
                           <option key={option.value} value={option.value}>{option.label}</option>
@@ -237,7 +237,7 @@ export default function ProfilePage() {
                         type="text"
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                       />
                     </div>
                     <div>
@@ -246,7 +246,7 @@ export default function ProfilePage() {
                         type="text"
                         value={formData.state}
                         onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                       />
                     </div>
                   </div>
@@ -294,7 +294,7 @@ export default function ProfilePage() {
                       value={formData.goalsText}
                       onChange={(e) => setFormData({ ...formData, goalsText: e.target.value })}
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                       placeholder="What are your goals? What guidance are you seeking?"
                     />
                   </div>

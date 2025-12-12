@@ -207,7 +207,7 @@ export default function MentorSignupPage() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -218,7 +218,7 @@ export default function MentorSignupPage() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     placeholder="you@college.ac.in"
                   />
                 </div>
@@ -231,7 +231,7 @@ export default function MentorSignupPage() {
                     onChange={handleChange}
                     min="17"
                     max="30"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     placeholder="Your age"
                   />
                 </div>
@@ -242,7 +242,7 @@ export default function MentorSignupPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     placeholder="••••••••"
                   />
                 </div>
@@ -253,7 +253,7 @@ export default function MentorSignupPage() {
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     placeholder="••••••••"
                   />
                 </div>
@@ -273,7 +273,7 @@ export default function MentorSignupPage() {
                         setCollegeSearch(e.target.value);
                         setFormData({ ...formData, college: e.target.value });
                       }}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                       placeholder="Start typing to search..."
                     />
                     {collegeSearch && filteredColleges.length > 0 && (
@@ -303,7 +303,7 @@ export default function MentorSignupPage() {
                       name="major"
                       value={formData.major}
                       onChange={handleChange}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                       placeholder="e.g., Computer Science"
                     />
                   </div>
@@ -314,7 +314,7 @@ export default function MentorSignupPage() {
                       name="minor"
                       value={formData.minor}
                       onChange={handleChange}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                       placeholder="e.g., Economics"
                     />
                   </div>
@@ -325,7 +325,7 @@ export default function MentorSignupPage() {
                     name="year"
                     value={formData.year}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   >
                     <option value="">Select your year</option>
                     <option value="first">1st Year</option>
@@ -343,7 +343,7 @@ export default function MentorSignupPage() {
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                       placeholder="e.g., Mumbai"
                     />
                   </div>
@@ -353,7 +353,7 @@ export default function MentorSignupPage() {
                       name="state"
                       value={formData.state}
                       onChange={handleChange}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     >
                       <option value="">Select state</option>
                       {statesList.map((state) => (
@@ -425,7 +425,7 @@ export default function MentorSignupPage() {
                     value={formData.bio}
                     onChange={handleChange}
                     rows={6}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     placeholder="E.g., AIR 156 in JEE Advanced 2022. Currently pursuing B.Tech in CS at IIT Bombay. Passionate about helping students crack JEE and navigate the IIT journey..."
                   />
                   <p className="mt-1 text-sm text-gray-500">

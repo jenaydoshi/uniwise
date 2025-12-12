@@ -195,7 +195,7 @@ export default function MentorEditProfilePage() {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -205,7 +205,7 @@ export default function MentorEditProfilePage() {
                     type="text"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                   />
                 </div>
                 <div>
@@ -214,7 +214,7 @@ export default function MentorEditProfilePage() {
                     type="text"
                     value={formData.state}
                     onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                   />
                 </div>
               </div>
@@ -231,7 +231,7 @@ export default function MentorEditProfilePage() {
                   type="text"
                   value={formData.college}
                   onChange={(e) => setFormData({ ...formData, college: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -241,7 +241,7 @@ export default function MentorEditProfilePage() {
                     type="text"
                     value={formData.major}
                     onChange={(e) => setFormData({ ...formData, major: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                   />
                 </div>
                 <div>
@@ -250,7 +250,7 @@ export default function MentorEditProfilePage() {
                     type="text"
                     value={formData.minor}
                     onChange={(e) => setFormData({ ...formData, minor: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                   />
                 </div>
               </div>
@@ -259,7 +259,7 @@ export default function MentorEditProfilePage() {
                 <select
                   value={formData.year}
                   onChange={(e) => setFormData({ ...formData, year: e.target.value as typeof formData.year })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                 >
                   {yearOptions.map(option => (
                     <option key={option.value} value={option.value}>{option.label}</option>
@@ -324,7 +324,7 @@ export default function MentorEditProfilePage() {
                   value={formData.bio}
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                   placeholder="Tell students about yourself, your journey, and why you want to mentor..."
                 />
               </div>
@@ -334,7 +334,7 @@ export default function MentorEditProfilePage() {
                   type="text"
                   value={formData.availability}
                   onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                   placeholder="e.g., Weekends, Evenings after 7 PM"
                 />
               </div>
@@ -373,14 +373,14 @@ export default function MentorEditProfilePage() {
                     type="text"
                     value={faq.question}
                     onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2 text-gray-900"
                     placeholder="e.g., How did you prepare for JEE?"
                   />
                   <textarea
                     value={faq.answer}
                     onChange={(e) => handleFaqChange(index, 'answer', e.target.value)}
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                     placeholder="Your answer..."
                   />
                 </div>

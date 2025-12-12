@@ -279,7 +279,7 @@ export default function CommunityPage() {
                       <select
                         value={newThread.category}
                         onChange={(e) => setNewThread({ ...newThread, category: e.target.value as typeof categories[number] })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                       >
                         {categories.map(cat => (
                           <option key={cat} value={cat}>{cat}</option>
@@ -292,7 +292,7 @@ export default function CommunityPage() {
                         type="text"
                         value={newThread.title}
                         onChange={(e) => setNewThread({ ...newThread, title: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                         placeholder="e.g., How to balance JEE prep with boards?"
                       />
                     </div>
@@ -302,7 +302,7 @@ export default function CommunityPage() {
                         value={newThread.content}
                         onChange={(e) => setNewThread({ ...newThread, content: e.target.value })}
                         rows={4}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                         placeholder="Provide more context about your question..."
                       />
                     </div>
@@ -532,7 +532,7 @@ export default function CommunityPage() {
                                 value={newAnswer}
                                 onChange={(e) => setNewAnswer(e.target.value)}
                                 rows={3}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
                                 placeholder="Write your answer..."
                               />
                               <div className="mt-2 flex justify-end">
