@@ -145,9 +145,9 @@ export default function ProfilePage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Profile Header */}
         <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-700 h-48"></div>
-          <div className="px-6 pb-6 pt-2">
-            <div className="flex flex-col sm:flex-row sm:items-end -mt-16">
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-700 h-56"></div>
+          <div className="px-6 pb-6 pt-4">
+            <div className="flex flex-col sm:flex-row sm:items-end -mt-20">
               <div className="flex-shrink-0">
                 <div className="w-32 h-32 bg-white rounded-full border-4 border-white shadow-lg flex items-center justify-center">
                   <div className="w-28 h-28 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center">
@@ -157,7 +157,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
               </div>
-              <div className="mt-6 sm:mt-0 sm:ml-6 sm:flex-1 min-w-0">
+              <div className="mt-8 sm:mt-0 sm:ml-6 sm:flex-1 min-w-0">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <h1 className="text-2xl font-bold text-gray-900 break-words">{user.name}</h1>
